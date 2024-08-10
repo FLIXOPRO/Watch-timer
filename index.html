@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Page</title>
+    <title>Password Validation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@
             margin: 0;
         }
 
-        .container {
+        .task-container {
             background-color: #ffffff;
             border-radius: 8px;
             padding: 20px;
@@ -24,15 +24,27 @@
             width: 320px;
         }
 
-        input[type="password"] {
-            width: 80%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
         }
 
-        button {
+        .task-instruction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .task-instruction p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+            padding-right: 10px;
+        }
+
+        .watch-btn {
             background-color: #6200ee;
             color: #ffffff;
             border: none;
@@ -40,44 +52,125 @@
             padding: 10px 15px;
             cursor: pointer;
             font-size: 14px;
-            margin-top: 10px;
         }
 
-        button:hover {
+        .watch-btn:hover {
             background-color: #3700b3;
         }
 
-        #next-page-btn {
-            display: none;
+        .input-submit-container {
+            display: flex;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-container {
+            position: relative;
+            flex: 1;
+        }
+
+        input[type="password"] {
+            width: 80%;
+            padding: 10px 35px 10px 10px;
+            border: 1px solid #ccc;
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+            font-size: 14px;
+        }
+
+        .input-container .icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        .icon.success {
+            color: green;
+        }
+
+        .icon.error {
+            color: red;
+        }
+
+        .submit-btn {
+            background-color: #6200ee;
+            color: #ffffff;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .submit-btn:hover {
+            background-color: #3700b3;
+        }
+
+        .finish-btn {
+            background-color: #6200ee;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .finish-btn:disabled {
+            background-color: #ddd;
+            color: #aaa;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Password Page</h1>
-        <input type="password" id="password" placeholder="Enter password">
-        <button onclick="validatePassword()">Submit</button>
-        <button id="next-page-btn" onclick="goToNextPage()">Next Page</button>
+
+    <div class="task-container">
+        <h1>Your tasks</h1>
+        <div class="task-content">
+            <div class="task-instruction">
+                <p>Enter the password to unlock the Next Page button</p>
+            </div>
+            <div class="input-submit-container">
+                <div class="input-container">
+                    <input type="password" id="password" placeholder="Enter password">
+                    <span id="icon" class="icon"></span>
+                </div>
+                <button class="submit-btn" onclick="validatePassword()">Submit</button>
+            </div>
+        </div>
+        <button id="next-page-btn" class="finish-btn" disabled onclick="goToNextPage()">Next Page</button>
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const encodedLink = urlParams.get('link');
-        const decodedLink = decodeURIComponent(atob(encodedLink));
-
         function validatePassword() {
             const passwordInput = document.getElementById('password').value;
+            const icon = document.getElementById('icon');
             const nextPageBtn = document.getElementById('next-page-btn');
             
             if (passwordInput === '12345') { // Replace with your actual password
-                nextPageBtn.style.display = 'block'; // Show the "Next Page" button
+                icon.textContent = '✅';
+                icon.classList.add('success');
+                icon.classList.remove('error');
+                nextPageBtn.disabled = false; // Enable the "Next Page" button
             } else {
-                alert('Incorrect password');
+                icon.textContent = '❌';
+                icon.classList.add('error');
+                icon.classList.remove('success');
+                nextPageBtn.disabled = true; // Disable the "Next Page" button
             }
         }
 
         function goToNextPage() {
-            window.location.href = decodedLink; // Redirect to the original link
+            window.location.href = getParameterByName('link'); // Redirect to the link from the Short Page
+        }
+
+        function getParameterByName(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
         }
     </script>
 </body>
