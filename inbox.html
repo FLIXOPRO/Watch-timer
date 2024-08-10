@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+
+        input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #6200ee;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        #next-page-btn {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Password Page</h1>
+        <input type="password" id="password" placeholder="Enter password">
+        <button onclick="validatePassword()">Submit</button>
+        <button id="next-page-btn" onclick="goToNextPage()">Next Page</button>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedLink = urlParams.get('link');
+        const decodedLink = decodeURIComponent(atob(encodedLink));
+
+        function validatePassword() {
+            const passwordInput = document.getElementById('password').value;
+            const nextPageBtn = document.getElementById('next-page-btn');
+            
+            if (passwordInput === '12345') { // Replace with your actual password
+                nextPageBtn.style.display = 'block'; // Show the "Next Page" button
+            } else {
+                alert('Incorrect password');
+            }
+        }
+
+        function goToNextPage() {
+            window.location.href = decodedLink; // Redirect to the original link
+        }
+    </script>
+</body>
+</html>
