@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #6200ee;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        #copy-box {
+            margin-top: 15px;
+            display: none;
+        }
+
+        #copy-link {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Short Page</h1>
+        <input type="text" id="linkInput" placeholder="Enter link here">
+        <button onclick="generateLink()">Submit</button>
+        <div id="copy-box">
+            <input type="text" id="copy-link" readonly>
+            <button onclick="copyLink()">Copy Link</button>
+        </div>
+    </div>
+
+    <script>
+        function generateLink() {
+            const linkInput = document.getElementById('linkInput').value;
+            const copyBox = document.getElementById('copy-box');
+            const copyLink = document.getElementById('copy-link');
+            
+            if (linkInput) {
+                // Generate a unique link to the Password Page
+                const uniqueIdentifier = btoa(linkInput); // Simple encoding for example
+                const passwordPageLink = `password.html?link=${encodeURIComponent(uniqueIdentifier)}`;
+                copyLink.value = passwordPageLink;
+                copyBox.style.display = 'block'; // Show the copy box
+            }
+        }
+
+        function copyLink() {
+            const copyLink = document.getElementById('copy-link');
+            copyLink.select();
+            document.execCommand('copy');
+            alert('Link copied to clipboard');
+        }
+    </script>
+</body>
+</html>
